@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  r2dbc:
+    url: r2dbc:h2:mem:///pricing
+    username: sa
+    password:
