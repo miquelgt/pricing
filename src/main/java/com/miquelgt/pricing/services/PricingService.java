@@ -6,8 +6,6 @@ import com.miquelgt.pricing.respositories.PricingRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Comparator;
-
 @Service
 public class PricingService {
     private final PricingRepository pricingRepository;
@@ -17,13 +15,8 @@ public class PricingService {
     }
 
     public Mono<Pricing> findPriceToApply(PriceRequest priceRequest) {
-        return pricingRepository.findPriceBy(priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate())
-                .sort(higher())
-                .next();
+        return pricingRepository.findPriceBy(priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate());
     }
 
-    private static Comparator<Pricing> higher() {
-        return (o1, o2) -> o2.getPriority().compareTo(o1.getPriority());
-    }
 
 }
