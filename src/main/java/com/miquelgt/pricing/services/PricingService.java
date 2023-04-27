@@ -2,6 +2,7 @@ package com.miquelgt.pricing.services;
 
 import com.miquelgt.pricing.api.models.PriceRequest;
 import com.miquelgt.pricing.entities.Pricing;
+import com.miquelgt.pricing.exceptions.PriceNotFoundException;
 import com.miquelgt.pricing.respositories.PricingRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -15,7 +16,8 @@ public class PricingService {
     }
 
     public Mono<Pricing> findPriceToApply(PriceRequest priceRequest) {
-        return pricingRepository.findPriceBy(priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate());
+        return pricingRepository.findPriceBy(priceRequest.getProductId(), priceRequest.getBrandId(), priceRequest.getApplicationDate())
+                .switchIfEmpty(Mono.error(new PriceNotFoundException()));
     }
 
 
