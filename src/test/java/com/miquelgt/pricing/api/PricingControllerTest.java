@@ -1,6 +1,7 @@
 package com.miquelgt.pricing.api;
 
 import com.miquelgt.pricing.api.models.PriceResponse;
+import com.miquelgt.pricing.exceptions.ErrorDTO;
 import com.miquelgt.pricing.mappers.PricingMapper;
 import com.miquelgt.pricing.services.PricingService;
 import org.junit.jupiter.api.Assertions;
@@ -68,6 +69,19 @@ class PricingControllerTest {
         Long princeId = getPriceId("2020-06-16T21:00:00");
 
         Assertions.assertEquals(4, princeId);
+
+    }
+
+    @Test
+    void given_a_request_when_not_return_prices_then_we_should_get_an_error() {
+        ErrorDTO result = webClient.get()
+                .uri(getUriBuilderURIFunction("2025-06-16T21:00:00"))
+                .exchange()
+                .expectBody(ErrorDTO.class)
+                .returnResult()
+                .getResponseBody();
+        Assertions.assertEquals(500, result.getStatus());
+        Assertions.assertEquals("Price not found exception", result.getMessage());
     }
 
 
