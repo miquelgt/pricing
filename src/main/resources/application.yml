@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
   r2dbc:
     url: r2dbc:h2:mem:///pricing
